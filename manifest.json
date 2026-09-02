@@ -1,6 +1,6 @@
 {
-  "name": "Aplikasi GAS PWA",
-  "short_name": "GAS App",
+  "name": "Aplikasi Pegawai Ma'had An-Nama'",
+  "short_name": "PegawaiMAN",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",

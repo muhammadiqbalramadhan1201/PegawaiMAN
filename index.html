@@ -21,26 +21,164 @@
   <meta name="twitter:description" content="Sistem informasi dan layanan kepegawaian.">
   <meta name="twitter:image" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
 
+  <!-- Manifest & PWA Configuration -->
   <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
   <meta name="theme-color" content="#4285F4">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #fff; }
-    iframe { width: 100%; height: 100%; border: none; display: block; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    html, body { 
+      width: 100%; 
+      height: 100%; 
+      overflow: hidden; 
+      background: #fff; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Styling Iframe Aplikasi GAS */
+    iframe { 
+      width: 100%; 
+      height: 100%; 
+      border: none; 
+      display: block; 
+      z-index: 1; 
+      position: relative; 
+    }
+
+    /* 1. Overlay Latar Belakang Transparan Gelap */
+    #install-overlay {
+      display: none; /* Sembunyi awalnya */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); /* Hitam transparan 70% */
+      z-index: 9998; /* Di atas iframe */
+      justify-content: center; /* Tengah horizontal */
+      align-items: center; /* Tengah vertikal */
+      opacity: 0;
+      transition: opacity 0.4s ease; /* Efek pudar halus */
+      pointer-events: none; /* Iframe tetap bisa disentuh saat ini sembunyi */
+    }
+
+    /* State saat overlay aktif/muncul */
+    #install-overlay.show {
+      opacity: 1;
+      pointer-events: auto; /* Memblokir sentuhan ke iframe saat modal tampil */
+    }
+
+    /* 2. Styling Kotak Pop-up di Tengah */
+    #install-modal {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      text-align: center;
+      width: 85%;
+      max-width: 400px;
+      transform: scale(0.8);
+      transition: transform 0.4s ease;
+    }
+
+    /* Efek animasi pop-up membesar saat muncul */
+    #install-overlay.show #install-modal {
+      transform: scale(1);
+    }
+
+    /* Styling Konten Modal */
+    .app-icon-placeholder {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px auto;
+      background-color: #eee;
+      border-radius: 18px;
+      background-image: url('https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png');
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #install-modal h2 {
+      margin: 0 0 10px 0;
+      font-size: 22px;
+      color: #1c1e21;
+    }
+
+    #install-modal p {
+      margin: 0 0 25px 0;
+      font-size: 16px;
+      color: #606770;
+      line-height: 1.5;
+    }
+
+    /* Styling Tombol Aksi */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    #btn-install {
+      background-color: #4285F4; /* Disesuaikan dengan warna theme-color */
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    #btn-install:active {
+      background-color: #2b6cb0;
+    }
+
+    #btn-close {
+      background: none;
+      border: none;
+      color: #777;
+      font-size: 14px;
+      padding: 10px;
+      cursor: pointer;
+      text-decoration: none;
+    }
   </style>
 </head>
 
 <body>
 
+  <!-- Iframe Google Apps Script -->
   <iframe
     src="https://script.google.com/macros/s/AKfycbzvlDBnQ4rWwIDX9KZAvQ1zgnSW9Fvzcn8hFl1twWkxW5xuP2sk3oLrkqjO2wgDtqwL/exec"
-    allow="geolocation">
+    allow="geolocation; camera; microphone">
   </iframe>
 
+  <!-- Structure Pop-up Modal Instalasi -->
+  <div id="install-overlay">
+    <div id="install-modal">
+      <div class="app-icon-placeholder"></div>
+      <h2>Install Aplikasi</h2>
+      <p>Akses aplikasi ini lebih cepat dan mudah langsung dari layar utama HP Anda.</p>
+      
+      <div class="action-buttons">
+        <button id="btn-install">Tambahkan ke Layar Utama</button>
+        <button id="btn-close">Nanti Saja</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // 1. Service Worker & Geolocation
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
     }
@@ -53,6 +191,55 @@
         );
       }
     });
+
+    // 2. Logika Pop-up Modal Instalasi PWA
+    let deferredPrompt;
+    const installOverlay = document.getElementById('install-overlay');
+    const btnInstall = document.getElementById('btn-install');
+    const btnClose = document.getElementById('btn-close');
+
+    // Cek apakah aplikasi dibuka dalam mode Standalone (Sudah diinstal)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+    if (!isStandalone) {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Cegah prompt bawaan browser
+        e.preventDefault();
+        // Simpan event instalasi
+        deferredPrompt = e;
+        
+        // Tampilkan Overlay & Modal dengan animasi
+        installOverlay.style.display = 'flex';
+        setTimeout(() => {
+          installOverlay.classList.add('show');
+        }, 10);
+      });
+    }
+
+    // Eksekusi Instalasi saat tombol diklik
+    btnInstall.addEventListener('click', async () => {
+      hideModal();
+      
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`Respon pengguna: ${outcome}`);
+        deferredPrompt = null;
+      }
+    });
+
+    // Tombol Batal / Nanti Saja
+    btnClose.addEventListener('click', () => {
+      hideModal();
+    });
+
+    // Fungsi Sembunyikan Modal dengan Animasi
+    function hideModal() {
+      installOverlay.classList.remove('show');
+      setTimeout(() => {
+        installOverlay.style.display = 'none';
+      }, 400);
+    }
   </script>
 
 </body>

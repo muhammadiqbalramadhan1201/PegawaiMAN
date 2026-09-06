@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -15,13 +16,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/">
 
-  <!-- Meta Twitter -->
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Aplikasi Pegawai MAN">
   <meta name="twitter:description" content="Sistem informasi dan layanan kepegawaian.">
   <meta name="twitter:image" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
 
-  <!-- Manifest & PWA Configuration -->
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
 
@@ -29,17 +30,19 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+
   <style>
 
-    /* =========================================
+    /* =====================================================
        RESET
-       ========================================= */
+       ===================================================== */
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
 
     html,
     body {
@@ -58,12 +61,14 @@
     }
 
 
-    /* =========================================
-       IFRAME GOOGLE APPS SCRIPT
-       ========================================= */
+    /* =====================================================
+       IFRAME APLIKASI
+       ===================================================== */
 
     #app-frame {
+
       position: fixed;
+
       top: 0;
       left: 0;
 
@@ -71,6 +76,7 @@
       height: 100%;
 
       border: none;
+
       display: block;
 
       z-index: 1;
@@ -79,90 +85,109 @@
     }
 
 
-    /* =========================================
-       TOMBOL REFRESH
-       KANAN BAWAH
-       ========================================= */
+    /* =====================================================
+       TOMBOL REFRESH FLOATING
+       ===================================================== */
 
     #refresh-button {
 
+      /* WAJIB FLOATING DI ATAS IFRAME */
       position: fixed !important;
 
-      /* POSISI KANAN BAWAH */
-      right: 18px !important;
-      bottom: 18px !important;
+      right: 20px !important;
+      bottom: 20px !important;
 
-      /* HAPUS POSISI ATAS */
       top: auto !important;
       left: auto !important;
 
-      width: 52px !important;
-      height: 52px !important;
+      width: 54px !important;
+      height: 54px !important;
 
-      border: none !important;
+      min-width: 54px !important;
+      min-height: 54px !important;
+
+      max-width: 54px !important;
+      max-height: 54px !important;
+
+      border: 0 !important;
+      outline: none !important;
+
       border-radius: 50% !important;
 
-      /* BIRU TUA */
       background: #0B3D91 !important;
 
-      color: #ffffff !important;
+      color: #FFFFFF !important;
 
-      font-size: 31px !important;
-      font-weight: 400 !important;
+      font-family: Arial, sans-serif !important;
 
-      line-height: 52px !important;
+      font-size: 32px !important;
+
+      font-weight: normal !important;
+
+      line-height: 54px !important;
+
       text-align: center !important;
 
-      cursor: pointer;
-
-      /* HARUS DI ATAS IFRAME */
-      z-index: 9996 !important;
-
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-
       padding: 0 !important;
+
       margin: 0 !important;
 
+      cursor: pointer !important;
+
+      /* PALING ATAS */
+      z-index: 2147483647 !important;
+
+      display: flex !important;
+
+      align-items: center !important;
+
+      justify-content: center !important;
+
+      visibility: visible !important;
+
+      opacity: 1 !important;
+
       box-shadow:
-        0 4px 14px rgba(0, 0, 0, 0.35) !important;
+        0 4px 15px rgba(0, 0, 0, 0.35) !important;
+
+      -webkit-appearance: none !important;
+      appearance: none !important;
 
       -webkit-tap-highlight-color: transparent;
 
+      user-select: none;
+
       transition:
         transform 0.15s ease,
-        background 0.15s ease;
+        background-color 0.15s ease;
     }
 
 
-    /* Saat ditekan */
+    /* Saat tombol ditekan */
 
     #refresh-button:active {
 
-      transform: scale(0.88);
+      transform: scale(0.88) !important;
 
-      background: #072E6B !important;
+      background: #062B68 !important;
     }
 
 
-    /* Saat sedang loading */
+    /* Saat sedang refresh */
 
-    #refresh-button.loading {
+    #refresh-button.refreshing {
 
       pointer-events: none;
 
-      opacity: 0.75;
+      opacity: 0.75 !important;
     }
 
 
-    /* =========================================
-       OVERLAY REFRESH
-       ========================================= */
+    /* =====================================================
+       POPUP REFRESH
+       ===================================================== */
 
     #refresh-overlay {
-
-      display: none;
 
       position: fixed;
 
@@ -172,9 +197,12 @@
       width: 100%;
       height: 100%;
 
-      background: rgba(0, 0, 0, 0.45);
+      background:
+        rgba(0, 0, 0, 0.45);
 
-      z-index: 9997;
+      z-index: 2147483646;
+
+      display: none;
 
       align-items: center;
       justify-content: center;
@@ -187,20 +215,21 @@
     }
 
 
-    /* =========================================
-       KOTAK MEMUAT ULANG
-       ========================================= */
+    /* =====================================================
+       KOTAK REFRESH
+       ===================================================== */
 
     #refresh-modal {
 
-      width: 82%;
-      max-width: 340px;
+      width: 85%;
 
-      background: #ffffff;
+      max-width: 350px;
+
+      background: #FFFFFF;
 
       border-radius: 18px;
 
-      padding: 25px 20px;
+      padding: 28px 20px;
 
       text-align: center;
 
@@ -230,19 +259,21 @@
     }
 
 
-    /* =========================================
-       ICON LOADING
-       ========================================= */
+    /* =====================================================
+       LOADING SPINNER
+       ===================================================== */
 
     .refresh-loading-icon {
 
-      width: 50px;
-      height: 50px;
+      width: 48px;
 
-      margin: 0 auto 15px auto;
+      height: 48px;
+
+      margin:
+        0 auto 16px auto;
 
       border:
-        5px solid #e5e7eb;
+        5px solid #E5E7EB;
 
       border-top-color:
         #0B3D91;
@@ -250,14 +281,17 @@
       border-radius: 50%;
 
       animation:
-        spinRefresh 0.8s linear infinite;
+        refreshSpin 0.8s linear infinite;
     }
 
 
-    @keyframes spinRefresh {
+    @keyframes refreshSpin {
+
+      from {
+        transform: rotate(0deg);
+      }
 
       to {
-
         transform: rotate(360deg);
       }
     }
@@ -269,15 +303,15 @@
 
       font-size: 17px;
 
-      color: #222222;
-
       font-weight: 600;
+
+      color: #222222;
     }
 
 
-    /* =========================================
+    /* =====================================================
        INSTALL OVERLAY
-       ========================================= */
+       ===================================================== */
 
     #install-overlay {
 
@@ -297,6 +331,7 @@
       z-index: 9998;
 
       justify-content: center;
+
       align-items: center;
 
       opacity: 0;
@@ -316,13 +351,13 @@
     }
 
 
-    /* =========================================
+    /* =====================================================
        INSTALL MODAL
-       ========================================= */
+       ===================================================== */
 
     #install-modal {
 
-      background: #ffffff;
+      background: #FFFFFF;
 
       padding: 30px;
 
@@ -350,19 +385,21 @@
     }
 
 
-    /* =========================================
-       ICON APLIKASI
-       ========================================= */
+    /* =====================================================
+       ICON INSTALL
+       ===================================================== */
 
     .app-icon-placeholder {
 
       width: 80px;
+
       height: 80px;
 
       margin:
         0 auto 20px auto;
 
-      background-color: #eeeeee;
+      background-color:
+        #EEEEEE;
 
       border-radius: 18px;
 
@@ -402,9 +439,9 @@
     }
 
 
-    /* =========================================
+    /* =====================================================
        TOMBOL INSTALL
-       ========================================= */
+       ===================================================== */
 
     .action-buttons {
 
@@ -421,7 +458,7 @@
       background-color:
         #4285F4;
 
-      color: white;
+      color: #FFFFFF;
 
       border: none;
 
@@ -434,9 +471,6 @@
       font-weight: bold;
 
       cursor: pointer;
-
-      transition:
-        background-color 0.2s;
     }
 
 
@@ -465,38 +499,47 @@
     }
 
 
-    /* =========================================
-       KHUSUS HP
-       ========================================= */
+    /* =====================================================
+       TAMPILAN HP
+       ===================================================== */
 
     @media (max-width: 600px) {
 
       #refresh-button {
 
-        right: 16px !important;
+        right: 15px !important;
 
-        bottom: 16px !important;
+        bottom: 15px !important;
 
-        width: 50px !important;
+        width: 52px !important;
 
-        height: 50px !important;
+        height: 52px !important;
 
-        font-size: 29px !important;
+        min-width: 52px !important;
+
+        min-height: 52px !important;
+
+        max-width: 52px !important;
+
+        max-height: 52px !important;
+
+        font-size: 30px !important;
 
       }
 
     }
 
   </style>
+
 </head>
 
 
 <body>
 
 
-  <!-- =========================================
+  <!-- =====================================================
        APLIKASI GOOGLE APPS SCRIPT
-       ========================================= -->
+       ===================================================== -->
 
   <iframe
     id="app-frame"
@@ -505,9 +548,9 @@
   </iframe>
 
 
-  <!-- =========================================
+  <!-- =====================================================
        TOMBOL REFRESH
-       ========================================= -->
+       ===================================================== -->
 
   <button
     id="refresh-button"
@@ -520,9 +563,9 @@
   </button>
 
 
-  <!-- =========================================
+  <!-- =====================================================
        POPUP REFRESH
-       ========================================= -->
+       ===================================================== -->
 
   <div id="refresh-overlay">
 
@@ -539,9 +582,9 @@
   </div>
 
 
-  <!-- =========================================
+  <!-- =====================================================
        POPUP INSTALLASI
-       ========================================= -->
+       ===================================================== -->
 
   <div id="install-overlay">
 
@@ -585,7 +628,7 @@
 
       navigator.serviceWorker
         .register('sw.js')
-        .catch(error => {
+        .catch(function(error) {
 
           console.warn(
             'Service Worker gagal:',
@@ -603,13 +646,13 @@
 
     window.addEventListener(
       'load',
-      () => {
+      function() {
 
         if ('geolocation' in navigator) {
 
           navigator.geolocation.getCurrentPosition(
 
-            (pos) => {
+            function(pos) {
 
               console.log(
                 'Lokasi diizinkan:',
@@ -618,7 +661,7 @@
 
             },
 
-            (err) => {
+            function(err) {
 
               console.warn(
                 'Akses lokasi ditolak:',
@@ -655,16 +698,15 @@
       );
 
 
-    refreshButton.addEventListener(
-      'click',
-      function () {
+    refreshButton.onclick =
+      function() {
 
 
-        /* Jangan izinkan klik berulang */
+        /* Cegah klik berkali-kali */
 
         if (
           refreshButton.classList
-            .contains('loading')
+            .contains('refreshing')
         ) {
 
           return;
@@ -672,118 +714,56 @@
         }
 
 
-        /* Tandai sedang loading */
+        /* Tandai sedang refresh */
 
         refreshButton.classList
-          .add('loading');
+          .add('refreshing');
 
 
-        /* Tampilkan kotak */
+        /* Tampilkan popup */
 
         refreshOverlay.classList
           .add('show');
 
 
         /*
-         * Membuat URL baru agar browser
-         * benar-benar meminta ulang halaman.
+         * Paksa iframe memuat ulang.
+         * Parameter timestamp mencegah cache.
          */
 
-        const currentURL =
-          appFrame.src.split('#')[0];
+        const baseURL =
+          'https://script.google.com/macros/s/AKfycbzvlDBnQ4rWwIDX9KZAvQ1zgnSW9Fvzcn8hFl1twWkxW5xuP2sk3oLrkqjO2wgDtqwL/exec';
 
 
-        const separator =
-          currentURL.includes('?')
-            ? '&'
-            : '?';
-
-
-        const newURL =
-          currentURL +
-          separator +
-          '_refresh=' +
+        appFrame.src =
+          baseURL +
+          '?refresh=' +
           Date.now();
 
 
         /*
-         * Muat ulang iframe
+         * Popup minimal tampil
+         * selama 1,5 detik.
          */
 
-        appFrame.src = newURL;
+        setTimeout(
+          function() {
 
+            refreshOverlay.classList
+              .remove('show');
 
-        /*
-         * Fallback jika iframe terlalu lama
-         */
+            refreshButton.classList
+              .remove('refreshing');
 
-        const safetyTimer =
-          setTimeout(
-            function () {
-
-              hideRefresh();
-
-            },
-            8000
-          );
-
-
-        /*
-         * Jika iframe selesai dimuat
-         */
-
-        const refreshFinished =
-          function () {
-
-            clearTimeout(
-              safetyTimer
-            );
-
-
-            setTimeout(
-              function () {
-
-                hideRefresh();
-
-              },
-              400
-            );
-
-
-            appFrame.removeEventListener(
-              'load',
-              refreshFinished
-            );
-
-          };
-
-
-        appFrame.addEventListener(
-          'load',
-          refreshFinished
+          },
+          1500
         );
 
-      }
-    );
+      };
 
 
     /* =====================================================
-       SEMBUNYIKAN POPUP REFRESH
-       ===================================================== */
-
-    function hideRefresh() {
-
-      refreshOverlay.classList
-        .remove('show');
-
-      refreshButton.classList
-        .remove('loading');
-
-    }
-
-
-    /* =====================================================
-       MODAL INSTALLASI PWA
+       PWA INSTALLATION
        ===================================================== */
 
     let deferredPrompt;
@@ -807,8 +787,6 @@
       );
 
 
-    /* Cek Standalone */
-
     const isStandalone =
       window.matchMedia(
         '(display-mode: standalone)'
@@ -820,10 +798,10 @@
 
       window.addEventListener(
         'beforeinstallprompt',
-        (e) => {
+        function(e) {
 
 
-          /* Cegah prompt bawaan */
+          /* Cegah prompt bawaan browser */
 
           e.preventDefault();
 
@@ -833,14 +811,14 @@
           deferredPrompt = e;
 
 
-          /* Tampilkan modal */
+          /* Tampilkan popup */
 
           installOverlay.style.display =
             'flex';
 
 
           setTimeout(
-            () => {
+            function() {
 
               installOverlay.classList
                 .add('show');
@@ -859,9 +837,8 @@
        TOMBOL INSTALL
        ===================================================== */
 
-    btnInstall.addEventListener(
-      'click',
-      async () => {
+    btnInstall.onclick =
+      async function() {
 
 
         hideModal();
@@ -869,17 +846,16 @@
 
         if (deferredPrompt) {
 
-
           deferredPrompt.prompt();
 
 
-          const { outcome } =
-            await deferredPrompt
-              .userChoice;
+          const result =
+            await deferredPrompt.userChoice;
 
 
           console.log(
-            `Respon pengguna: ${outcome}`
+            'Respon pengguna:',
+            result.outcome
           );
 
 
@@ -887,22 +863,19 @@
 
         }
 
-      }
-    );
+      };
 
 
     /* =====================================================
        TOMBOL NANTI SAJA
        ===================================================== */
 
-    btnClose.addEventListener(
-      'click',
-      () => {
+    btnClose.onclick =
+      function() {
 
         hideModal();
 
-      }
-    );
+      };
 
 
     /* =====================================================
@@ -916,7 +889,7 @@
 
 
       setTimeout(
-        () => {
+        function() {
 
           installOverlay.style.display =
             'none';
@@ -927,8 +900,8 @@
 
     }
 
-
   </script>
 
 </body>
 </html>
+```

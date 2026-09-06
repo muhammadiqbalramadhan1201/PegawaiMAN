@@ -17,22 +17,24 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/">
 
-  <!-- Meta Twitter -->
+  <!-- Twitter -->
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Aplikasi Pegawai MAN">
   <meta name="twitter:description" content="Sistem informasi dan layanan kepegawaian.">
   <meta name="twitter:image" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
 
-  <!-- Manifest & PWA Configuration -->
+  <!-- PWA -->
 
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
+
   <meta name="theme-color" content="#4285F4">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <style>
+
     * {
       margin: 0;
       padding: 0;
@@ -44,70 +46,122 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
     }
 
-    /* =========================================================
-       IFRAME GOOGLE APPS SCRIPT
-       ========================================================= */
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-      z-index: 1;
-      position: relative;
-    }
+    /* =====================================================
+       AREA APLIKASI
+       ===================================================== */
 
-    /* =========================================================
-       PULL TO REFRESH
-       ========================================================= */
-
-    #pull-refresh {
+    #app-container {
       position: fixed;
       top: 0;
-      left: 50%;
-      transform: translate(-50%, -70px);
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
       background: #ffffff;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.20);
-      z-index: 9997;
+
+      transform: translateY(0);
+
+      transition: transform 0.25s ease;
+
+      z-index: 1;
+    }
+
+    #appFrame {
+      width: 100%;
+      height: 100%;
+
+      border: none;
+
+      display: block;
+    }
+
+
+    /* =====================================================
+       PULL REFRESH AREA
+       ===================================================== */
+
+    #refresh-container {
+
+      position: fixed;
+
+      top: 0;
+      left: 50%;
+
+      transform:
+        translate(-50%, -80px);
+
+      width: 52px;
+      height: 52px;
+
+      border-radius: 50%;
+
+      background: #ffffff;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,0.22);
 
       display: flex;
+
       align-items: center;
       justify-content: center;
 
+      z-index: 9999;
+
       opacity: 0;
-      transition:
-        transform 0.18s ease,
-        opacity 0.18s ease;
+
       pointer-events: none;
+
+      transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
     }
 
-    #pull-refresh.visible {
-      opacity: 1;
-    }
 
-    #pull-refresh.refreshing {
-      transform: translate(-50%, 15px);
-      opacity: 1;
-    }
+    /* =====================================================
+       ICON REFRESH
+       ===================================================== */
 
     #refresh-icon {
-      font-size: 25px;
+
+      font-size: 29px;
+
       line-height: 1;
+
       color: #4285F4;
-      transition: transform 0.1s linear;
+
+      display: block;
+
+      transform:
+        rotate(0deg);
+
     }
 
-    #pull-refresh.refreshing #refresh-icon {
-      animation: refreshSpin 0.8s linear infinite;
+
+    /* Animasi berputar */
+
+    #refresh-container.loading
+    #refresh-icon {
+
+      animation:
+        spinRefresh 0.75s linear infinite;
+
     }
 
-    @keyframes refreshSpin {
+
+    @keyframes spinRefresh {
+
       from {
         transform: rotate(0deg);
       }
@@ -115,190 +169,327 @@
       to {
         transform: rotate(360deg);
       }
+
     }
 
-    /* Tulisan kecil status refresh */
-    #refresh-text {
+
+    /* =====================================================
+       TEKS REFRESH
+       ===================================================== */
+
+    #refresh-message {
+
       position: fixed;
-      top: 68px;
+
+      top: 64px;
       left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.75);
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      z-index: 9996;
+
+      transform:
+        translateX(-50%);
+
+      background:
+        rgba(0,0,0,0.75);
+
+      color: #ffffff;
+
+      padding:
+        7px 14px;
+
+      border-radius:
+        20px;
+
+      font-size:
+        12px;
+
+      white-space:
+        nowrap;
+
       opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-      white-space: nowrap;
+
+      z-index: 10000;
+
+      pointer-events:
+        none;
+
+      transition:
+        opacity 0.2s ease;
+
     }
 
-    #refresh-text.show {
+
+    #refresh-message.show {
+
       opacity: 1;
+
     }
 
-    /* =========================================================
-       OVERLAY INSTALASI
-       ========================================================= */
+
+    /* =====================================================
+       MODAL INSTALL
+       ===================================================== */
 
     #install-overlay {
+
       display: none;
+
       position: fixed;
+
       top: 0;
       left: 0;
+
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 9998;
+
+      background:
+        rgba(0,0,0,0.7);
+
+      z-index: 20000;
+
       justify-content: center;
       align-items: center;
+
       opacity: 0;
-      transition: opacity 0.4s ease;
+
+      transition:
+        opacity 0.4s ease;
+
       pointer-events: none;
+
     }
+
 
     #install-overlay.show {
+
       opacity: 1;
+
       pointer-events: auto;
+
     }
 
-    /* =========================================================
-       MODAL INSTALASI
-       ========================================================= */
+
+    /* =====================================================
+       MODAL
+       ===================================================== */
 
     #install-modal {
+
       background: #ffffff;
+
       padding: 30px;
+
       border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.5);
+
       text-align: center;
+
       width: 85%;
+
       max-width: 400px;
-      transform: scale(0.8);
-      transition: transform 0.4s ease;
+
+      transform:
+        scale(0.8);
+
+      transition:
+        transform 0.4s ease;
+
     }
 
-    #install-overlay.show #install-modal {
-      transform: scale(1);
+
+    #install-overlay.show
+    #install-modal {
+
+      transform:
+        scale(1);
+
     }
+
+
+    /* =====================================================
+       ICON APLIKASI
+       ===================================================== */
 
     .app-icon-placeholder {
+
       width: 80px;
       height: 80px;
-      margin: 0 auto 20px auto;
-      background-color: #eee;
-      border-radius: 18px;
-      background-image: url('https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png');
-      background-size: cover;
-      background-position: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+      margin:
+        0 auto 20px auto;
+
+      background-color:
+        #eee;
+
+      border-radius:
+        18px;
+
+      background-image:
+        url('https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png');
+
+      background-size:
+        cover;
+
+      background-position:
+        center;
+
+      box-shadow:
+        0 4px 10px rgba(0,0,0,0.1);
+
     }
+
 
     #install-modal h2 {
-      margin: 0 0 10px 0;
-      font-size: 22px;
-      color: #1c1e21;
+
+      margin:
+        0 0 10px 0;
+
+      font-size:
+        22px;
+
+      color:
+        #1c1e21;
+
     }
+
 
     #install-modal p {
-      margin: 0 0 25px 0;
-      font-size: 16px;
-      color: #606770;
-      line-height: 1.5;
+
+      margin:
+        0 0 25px 0;
+
+      font-size:
+        16px;
+
+      color:
+        #606770;
+
+      line-height:
+        1.5;
+
     }
 
-    /* =========================================================
-       TOMBOL INSTALL
-       ========================================================= */
+
+    /* =====================================================
+       BUTTON INSTALL
+       ===================================================== */
 
     .action-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        12px;
+
     }
+
 
     #btn-install {
-      background-color: #4285F4;
-      color: white;
-      border: none;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.2s;
+
+      background:
+        #4285F4;
+
+      color:
+        white;
+
+      border:
+        none;
+
+      padding:
+        15px;
+
+      border-radius:
+        12px;
+
+      font-size:
+        16px;
+
+      font-weight:
+        bold;
+
+      cursor:
+        pointer;
+
     }
+
 
     #btn-install:active {
-      background-color: #2b6cb0;
+
+      background:
+        #2b6cb0;
+
     }
+
 
     #btn-close {
-      background: none;
-      border: none;
-      color: #777;
-      font-size: 14px;
-      padding: 10px;
-      cursor: pointer;
-      text-decoration: none;
+
+      background:
+        none;
+
+      border:
+        none;
+
+      color:
+        #777;
+
+      font-size:
+        14px;
+
+      padding:
+        10px;
+
+      cursor:
+        pointer;
+
     }
 
-    /* =========================================================
-       MOBILE
-       ========================================================= */
-
-    @media (max-width: 600px) {
-      #pull-refresh {
-        width: 46px;
-        height: 46px;
-      }
-
-      #refresh-icon {
-        font-size: 24px;
-      }
-
-      #refresh-text {
-        font-size: 11px;
-      }
-
-      #install-modal {
-        width: 90%;
-        padding: 25px 20px;
-      }
-    }
   </style>
 
 </head>
 
 <body>
 
-  <!-- =======================================================
-       INDIKATOR PULL TO REFRESH
-       ======================================================= -->
+  <!-- =====================================================
+       INDIKATOR PULL REFRESH
+       ===================================================== -->
 
-  <div id="pull-refresh">
-    <span id="refresh-icon">↻</span>
+  <div id="refresh-container">
+
+```
+<span id="refresh-icon">
+  ↻
+</span>
+```
+
   </div>
 
-  <div id="refresh-text">
+  <div id="refresh-message">
     Tarik ke bawah untuk menyegarkan
   </div>
 
-  <!-- =======================================================
-       IFRAME GOOGLE APPS SCRIPT
-       ======================================================= -->
+  <!-- =====================================================
+       CONTAINER APLIKASI
+       ===================================================== -->
 
-  <iframe
-    id="appFrame"
-    src="https://script.google.com/macros/s/AKfycbzvlDBnQ4rWwIDX9KZAvQ1zgnSW9Fvzcn8hFl1twWkxW5xuP2sk3oLrkqjO2wgDtqwL/exec"
-    allow="geolocation; camera; microphone">
-  </iframe>
+  <div id="app-container">
 
-  <!-- =======================================================
-       POP-UP MODAL INSTALASI PWA
-       ======================================================= -->
+```
+<iframe
+  id="appFrame"
+  src="https://script.google.com/macros/s/AKfycbzvlDBnQ4rWwIDX9KZAvQ1zgnSW9Fvzcn8hFl1twWkxW5xuP2sk3oLrkqjO2wgDtqwL/exec"
+  allow="geolocation; camera; microphone">
+</iframe>
+```
+
+  </div>
+
+  <!-- =====================================================
+       INSTALL POPUP
+       ===================================================== -->
 
   <div id="install-overlay">
 
@@ -307,7 +498,9 @@
 
   <div class="app-icon-placeholder"></div>
 
-  <h2>Install Aplikasi</h2>
+  <h2>
+    Install Aplikasi
+  </h2>
 
   <p>
     Akses aplikasi ini lebih cepat dan mudah langsung
@@ -333,88 +526,143 @@
 
   <script>
 
-    /* =======================================================
+    /* =====================================================
        SERVICE WORKER
-       ======================================================= */
+       ===================================================== */
 
     if ('serviceWorker' in navigator) {
 
-      navigator.serviceWorker.register('sw.js')
+      navigator.serviceWorker
+        .register('sw.js')
         .then(() => {
-          console.log('Service Worker aktif');
+
+          console.log(
+            'Service Worker aktif'
+          );
+
         })
         .catch((error) => {
-          console.warn('Service Worker gagal:', error);
+
+          console.warn(
+            'Service Worker gagal:',
+            error
+          );
+
         });
 
     }
 
 
-    /* =======================================================
+    /* =====================================================
        GEOLOCATION
-       ======================================================= */
+       ===================================================== */
 
-    window.addEventListener('load', () => {
+    window.addEventListener(
+      'load',
+      () => {
 
-      if ('geolocation' in navigator) {
+        if ('geolocation' in navigator) {
 
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            console.log(
-              'Lokasi diizinkan:',
-              pos.coords
-            );
-          },
+          navigator.geolocation.getCurrentPosition(
 
-          (err) => {
-            console.warn(
-              'Akses lokasi ditolak:',
-              err.message
-            );
-          }
-        );
+            (pos) => {
+
+              console.log(
+                'Lokasi diizinkan:',
+                pos.coords
+              );
+
+            },
+
+            (err) => {
+
+              console.warn(
+                'Akses lokasi ditolak:',
+                err.message
+              );
+
+            }
+
+          );
+
+        }
 
       }
+    );
 
-    });
 
-
-    /* =======================================================
+    /* =====================================================
        PULL TO REFRESH
-       ======================================================= */
+       ===================================================== */
 
-    const appFrame = document.getElementById('appFrame');
-    const pullRefresh = document.getElementById('pull-refresh');
-    const refreshIcon = document.getElementById('refresh-icon');
-    const refreshText = document.getElementById('refresh-text');
+    const appContainer =
+      document.getElementById(
+        'app-container'
+      );
 
-    let startY = 0;
-    let currentY = 0;
-    let pulling = false;
-    let refreshing = false;
+    const appFrame =
+      document.getElementById(
+        'appFrame'
+      );
 
-    const PULL_DISTANCE = 80;
+    const refreshContainer =
+      document.getElementById(
+        'refresh-container'
+      );
+
+    const refreshIcon =
+      document.getElementById(
+        'refresh-icon'
+      );
+
+    const refreshMessage =
+      document.getElementById(
+        'refresh-message'
+      );
+
+
+    let touchStartY = 0;
+
+    let touchCurrentY = 0;
+
+    let isPulling = false;
+
+    let isRefreshing = false;
 
 
     /*
-     * Sentuhan mulai
+     * Jarak minimal untuk refresh
      */
+
+    const REFRESH_DISTANCE = 90;
+
+
+    /*
+     * Mulai sentuhan
+     */
+
     document.addEventListener(
       'touchstart',
-      function (e) {
+      function(event) {
 
-        if (refreshing) return;
+        if (isRefreshing) {
+          return;
+        }
 
-        /*
-         * Hanya aktif jika posisi halaman paling atas.
-         */
-        if (window.scrollY !== 0) return;
+        if (
+          !event.touches ||
+          event.touches.length === 0
+        ) {
+          return;
+        }
 
-        if (!e.touches || !e.touches.length) return;
+        touchStartY =
+          event.touches[0].clientY;
 
-        startY = e.touches[0].clientY;
-        currentY = startY;
-        pulling = false;
+        touchCurrentY =
+          touchStartY;
+
+        isPulling = false;
 
       },
       {
@@ -424,132 +672,127 @@
 
 
     /*
-     * Saat jari ditarik ke bawah
+     * Gerakan jari
      */
+
     document.addEventListener(
       'touchmove',
-      function (e) {
+      function(event) {
 
-        if (refreshing) return;
-
-        if (!e.touches || !e.touches.length) return;
-
-        currentY = e.touches[0].clientY;
-
-        const distance = currentY - startY;
-
-        /*
-         * Hanya tarik ke bawah.
-         */
-        if (distance <= 0) {
-
-          if (pulling) {
-
-            pulling = false;
-
-            pullRefresh.classList.remove('visible');
-            refreshText.classList.remove('show');
-
-          }
-
+        if (isRefreshing) {
           return;
+        }
 
+        if (
+          !event.touches ||
+          event.touches.length === 0
+        ) {
+          return;
         }
 
 
-        /*
-         * Batasi jarak maksimum.
-         */
-        const limitedDistance =
-          Math.min(distance, 120);
+        touchCurrentY =
+          event.touches[0].clientY;
 
-
-        /*
-         * Aktifkan indikator.
-         */
-        if (distance > 10) {
-
-          pulling = true;
-
-          pullRefresh.classList.add('visible');
-
-          /*
-           * Gerakan ikon mengikuti jari.
-           */
-          const move =
-            Math.min(limitedDistance * 0.65, 78);
-
-          pullRefresh.style.transform =
-            'translate(-50%, ' +
-            move +
-            'px)';
-
-          /*
-           * Perputaran ikon.
-           */
-          const rotation =
-            limitedDistance * 2;
-
-          refreshIcon.style.transform =
-            'rotate(' +
-            rotation +
-            'deg)';
-
-
-          /*
-           * Status.
-           */
-          if (distance >= PULL_DISTANCE) {
-
-            refreshText.textContent =
-              'Lepaskan untuk menyegarkan';
-
-            refreshText.classList.add('show');
-
-          } else {
-
-            refreshText.textContent =
-              'Tarik ke bawah untuk menyegarkan';
-
-            refreshText.classList.add('show');
-
-          }
-
-        }
-
-      },
-      {
-        passive: true
-      }
-    );
-
-
-    /*
-     * Jari dilepas.
-     */
-    document.addEventListener(
-      'touchend',
-      function () {
-
-        if (!pulling || refreshing) return;
 
         const distance =
-          currentY - startY;
-
-        pulling = false;
+          touchCurrentY -
+          touchStartY;
 
 
         /*
-         * Jika tarikan cukup jauh,
-         * lakukan refresh.
+         * Hanya respon terhadap
+         * gerakan ke bawah.
          */
-        if (distance >= PULL_DISTANCE) {
 
-          doRefresh();
+        if (distance <= 0) {
+          return;
+        }
+
+
+        /*
+         * Jangan terlalu sensitif
+         */
+
+        if (distance < 8) {
+          return;
+        }
+
+
+        isPulling = true;
+
+
+        /*
+         * Kurangi efek tarikan
+         * agar terasa seperti Android.
+         */
+
+        const pullDistance =
+          Math.min(
+            distance * 0.55,
+            100
+          );
+
+
+        /*
+         * Gerakkan aplikasi sedikit
+         */
+
+        appContainer.style.transform =
+          'translateY(' +
+          pullDistance +
+          'px)';
+
+
+        /*
+         * Munculkan ikon
+         */
+
+        refreshContainer.style.opacity =
+          '1';
+
+
+        refreshContainer.style.transform =
+          'translate(-50%, ' +
+          (pullDistance - 70) +
+          'px)';
+
+
+        /*
+         * Putar ikon mengikuti
+         * jarak tarikan
+         */
+
+        refreshIcon.style.transform =
+          'rotate(' +
+          (distance * 2.5) +
+          'deg)';
+
+
+        /*
+         * Status teks
+         */
+
+        if (
+          distance >=
+          REFRESH_DISTANCE
+        ) {
+
+          refreshMessage.textContent =
+            'Lepaskan untuk menyegarkan';
+
+          refreshMessage.classList.add(
+            'show'
+          );
 
         } else {
 
-          resetRefreshIndicator();
+          refreshMessage.textContent =
+            'Tarik ke bawah untuk menyegarkan';
+
+          refreshMessage.classList.add(
+            'show'
+          );
 
         }
 
@@ -561,17 +804,42 @@
 
 
     /*
-     * Jika touch dibatalkan browser.
+     * Jari dilepas
      */
+
     document.addEventListener(
-      'touchcancel',
-      function () {
+      'touchend',
+      function() {
 
-        if (refreshing) return;
+        if (!isPulling) {
+          return;
+        }
 
-        pulling = false;
+        const distance =
+          touchCurrentY -
+          touchStartY;
 
-        resetRefreshIndicator();
+
+        isPulling = false;
+
+
+        /*
+         * Jika cukup jauh,
+         * refresh aplikasi.
+         */
+
+        if (
+          distance >=
+          REFRESH_DISTANCE
+        ) {
+
+          refreshApplication();
+
+        } else {
+
+          cancelPull();
+
+        }
 
       },
       {
@@ -581,30 +849,81 @@
 
 
     /*
-     * Fungsi refresh aplikasi.
+     * Jika gesture dibatalkan
      */
-    function doRefresh() {
 
-      refreshing = true;
+    document.addEventListener(
+      'touchcancel',
+      function() {
 
-      pullRefresh.classList.add('visible');
-      pullRefresh.classList.add('refreshing');
+        if (isRefreshing) {
+          return;
+        }
 
-      pullRefresh.style.transform =
-        'translate(-50%, 15px)';
+        isPulling = false;
 
-      refreshText.textContent =
-        'Menyegarkan aplikasi...';
+        cancelPull();
 
-      refreshText.classList.add('show');
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    /* =====================================================
+       REFRESH APLIKASI
+       ===================================================== */
+
+    function refreshApplication() {
+
+      isRefreshing = true;
 
 
       /*
-       * Reload isi iframe.
-       *
-       * Ini hanya me-refresh aplikasi GAS,
-       * bukan halaman GitHub secara keseluruhan.
+       * Posisi ikon tetap terlihat.
        */
+
+      refreshContainer.style.opacity =
+        '1';
+
+      refreshContainer.style.transform =
+        'translate(-50%, 15px)';
+
+
+      /*
+       * Aplikasi tetap sedikit turun.
+       */
+
+      appContainer.style.transform =
+        'translateY(60px)';
+
+
+      /*
+       * Aktifkan animasi putar.
+       */
+
+      refreshContainer.classList.add(
+        'loading'
+      );
+
+
+      /*
+       * Tampilkan pesan.
+       */
+
+      refreshMessage.textContent =
+        'Menyegarkan aplikasi...';
+
+      refreshMessage.classList.add(
+        'show'
+      );
+
+
+      /*
+       * Refresh iframe.
+       */
+
       try {
 
         appFrame.contentWindow.location.reload();
@@ -612,9 +931,9 @@
       } catch (error) {
 
         /*
-         * Fallback jika browser memblokir
-         * akses location iframe.
+         * Fallback
          */
+
         appFrame.src =
           appFrame.src;
 
@@ -622,73 +941,116 @@
 
 
       /*
-       * Selesai setelah beberapa saat.
+       * Berikan waktu aplikasi
+       * memuat ulang.
        */
-      setTimeout(function () {
 
-        refreshing = false;
+      setTimeout(
+        function() {
 
-        pullRefresh.classList.remove('refreshing');
+          refreshContainer.classList.remove(
+            'loading'
+          );
 
-        refreshText.textContent =
-          'Data berhasil diperbarui';
 
-        setTimeout(function () {
+          refreshMessage.textContent =
+            'Data berhasil diperbarui';
 
-          resetRefreshIndicator();
 
-        }, 900);
+          /*
+           * Kembalikan aplikasi
+           * ke posisi normal.
+           */
 
-      }, 1200);
+          appContainer.style.transform =
+            'translateY(0)';
+
+
+          setTimeout(
+            function() {
+
+              refreshContainer.style.opacity =
+                '0';
+
+              refreshContainer.style.transform =
+                'translate(-50%, -80px)';
+
+              refreshMessage.classList.remove(
+                'show'
+              );
+
+              refreshIcon.style.transform =
+                'rotate(0deg)';
+
+              isRefreshing = false;
+
+            },
+            800
+          );
+
+        },
+        1500
+      );
 
     }
 
 
-    /*
-     * Kembalikan indikator ke posisi awal.
-     */
-    function resetRefreshIndicator() {
+    /* =====================================================
+       BATAL TARIKAN
+       ===================================================== */
 
-      pullRefresh.classList.remove('visible');
-      pullRefresh.classList.remove('refreshing');
+    function cancelPull() {
 
-      pullRefresh.style.transform =
-        'translate(-50%, -70px)';
+      appContainer.style.transform =
+        'translateY(0)';
+
+
+      refreshContainer.style.opacity =
+        '0';
+
+
+      refreshContainer.style.transform =
+        'translate(-50%, -80px)';
+
+
+      refreshMessage.classList.remove(
+        'show'
+      );
+
 
       refreshIcon.style.transform =
         'rotate(0deg)';
 
-      refreshText.classList.remove('show');
-
-      setTimeout(function () {
-
-        refreshText.textContent =
-          'Tarik ke bawah untuk menyegarkan';
-
-      }, 250);
-
     }
 
 
-    /* =======================================================
+    /* =====================================================
        INSTALL PWA
-       ======================================================= */
+       ===================================================== */
 
     let deferredPrompt;
 
+
     const installOverlay =
-      document.getElementById('install-overlay');
+      document.getElementById(
+        'install-overlay'
+      );
 
     const btnInstall =
-      document.getElementById('btn-install');
+      document.getElementById(
+        'btn-install'
+      );
 
     const btnClose =
-      document.getElementById('btn-close');
+      document.getElementById(
+        'btn-close'
+      );
 
 
     /*
-     * Cek apakah sudah menjadi aplikasi PWA.
+     * Cek mode aplikasi
      */
+
     const isStandalone =
       window.matchMedia(
         '(display-mode: standalone)'
@@ -697,37 +1059,35 @@
 
 
     /*
-     * Prompt instalasi.
+     * Prompt install
      */
+
     if (!isStandalone) {
 
       window.addEventListener(
         'beforeinstallprompt',
-        (e) => {
+        (event) => {
 
-          /*
-           * Cegah prompt bawaan browser.
-           */
-          e.preventDefault();
+          event.preventDefault();
 
-          /*
-           * Simpan event instalasi.
-           */
-          deferredPrompt = e;
+          deferredPrompt =
+            event;
 
-          /*
-           * Tampilkan modal.
-           */
+
           installOverlay.style.display =
             'flex';
 
-          setTimeout(() => {
 
-            installOverlay.classList.add(
-              'show'
-            );
+          setTimeout(
+            () => {
 
-          }, 10);
+              installOverlay.classList.add(
+                'show'
+              );
+
+            },
+            10
+          );
 
         }
       );
@@ -736,29 +1096,35 @@
 
 
     /*
-     * Tombol install.
+     * Tombol install
      */
+
     btnInstall.addEventListener(
       'click',
       async () => {
 
         hideModal();
 
+
         if (deferredPrompt) {
 
           deferredPrompt.prompt();
+
 
           const {
             outcome
           } =
             await deferredPrompt.userChoice;
 
+
           console.log(
             'Respon pengguna:',
             outcome
           );
 
-          deferredPrompt = null;
+
+          deferredPrompt =
+            null;
 
         }
 
@@ -767,8 +1133,9 @@
 
 
     /*
-     * Tombol nanti saja.
+     * Tombol nanti saja
      */
+
     btnClose.addEventListener(
       'click',
       () => {
@@ -780,20 +1147,25 @@
 
 
     /*
-     * Sembunyikan modal.
+     * Tutup modal
      */
+
     function hideModal() {
 
       installOverlay.classList.remove(
         'show'
       );
 
-      setTimeout(() => {
 
-        installOverlay.style.display =
-          'none';
+      setTimeout(
+        () => {
 
-      }, 400);
+          installOverlay.style.display =
+            'none';
+
+        },
+        400
+      );
 
     }
 

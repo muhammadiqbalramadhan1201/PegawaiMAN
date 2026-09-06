@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -24,287 +25,541 @@
   <!-- Manifest & PWA Configuration -->
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
-  <meta name="theme-color" content="#4285F4">
+
+  <meta name="theme-color" content="#0B3D91">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <style>
+
+    /* =========================================
+       RESET
+       ========================================= */
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
     }
 
-    /* =========================
-       IFRAME APLIKASI GAS
-       ========================= */
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-      z-index: 1;
-      position: relative;
-    }
 
-    ```css
-/* =========================
-   TOMBOL REFRESH - KANAN BAWAH
-   ========================= */
-#refresh-button {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  top: auto;
-  width: 50px;
-  height: 50px;
-  border: none;
-  border-radius: 50%;
-  background: #0b3d91;
-  color: #ffffff;
-  font-size: 30px;
-  font-weight: bold;
-  line-height: 50px;
-  text-align: center;
-  cursor: pointer;
-  z-index: 9995;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.30);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 0.15s ease, background 0.15s ease;
-}
+    /* =========================================
+       IFRAME GOOGLE APPS SCRIPT
+       ========================================= */
 
-#refresh-button:active {
-  transform: scale(0.90);
-  background: #082f70;
-}
-
-#refresh-button.loading {
-  pointer-events: none;
-  opacity: 0.8;
-}
-```
-
-    /* =========================
-       OVERLAY REFRESH
-       ========================= */
-    #refresh-overlay {
-      display: none;
+    #app-frame {
       position: fixed;
       top: 0;
       left: 0;
+
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: 9997;
-      justify-content: center;
-      align-items: center;
+
+      border: none;
+      display: block;
+
+      z-index: 1;
+
+      background: #ffffff;
     }
 
+
+    /* =========================================
+       TOMBOL REFRESH
+       KANAN BAWAH
+       ========================================= */
+
+    #refresh-button {
+
+      position: fixed !important;
+
+      /* POSISI KANAN BAWAH */
+      right: 18px !important;
+      bottom: 18px !important;
+
+      /* HAPUS POSISI ATAS */
+      top: auto !important;
+      left: auto !important;
+
+      width: 52px !important;
+      height: 52px !important;
+
+      border: none !important;
+      border-radius: 50% !important;
+
+      /* BIRU TUA */
+      background: #0B3D91 !important;
+
+      color: #ffffff !important;
+
+      font-size: 31px !important;
+      font-weight: 400 !important;
+
+      line-height: 52px !important;
+      text-align: center !important;
+
+      cursor: pointer;
+
+      /* HARUS DI ATAS IFRAME */
+      z-index: 9996 !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      padding: 0 !important;
+      margin: 0 !important;
+
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.35) !important;
+
+      -webkit-tap-highlight-color: transparent;
+
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+    }
+
+
+    /* Saat ditekan */
+
+    #refresh-button:active {
+
+      transform: scale(0.88);
+
+      background: #072E6B !important;
+    }
+
+
+    /* Saat sedang loading */
+
+    #refresh-button.loading {
+
+      pointer-events: none;
+
+      opacity: 0.75;
+    }
+
+
+    /* =========================================
+       OVERLAY REFRESH
+       ========================================= */
+
+    #refresh-overlay {
+
+      display: none;
+
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: rgba(0, 0, 0, 0.45);
+
+      z-index: 9997;
+
+      align-items: center;
+      justify-content: center;
+    }
+
+
     #refresh-overlay.show {
+
       display: flex;
     }
 
+
+    /* =========================================
+       KOTAK MEMUAT ULANG
+       ========================================= */
+
     #refresh-modal {
+
       width: 82%;
       max-width: 340px;
+
       background: #ffffff;
+
       border-radius: 18px;
+
       padding: 25px 20px;
+
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      animation: refreshPopup 0.25s ease;
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.30);
+
+      animation:
+        refreshPopup 0.25s ease;
     }
 
+
     @keyframes refreshPopup {
+
       from {
+
         transform: scale(0.85);
+
         opacity: 0;
       }
+
       to {
+
         transform: scale(1);
+
         opacity: 1;
       }
     }
 
+
+    /* =========================================
+       ICON LOADING
+       ========================================= */
+
     .refresh-loading-icon {
+
       width: 50px;
       height: 50px;
+
       margin: 0 auto 15px auto;
-      border: 5px solid #e5e7eb;
-      border-top-color: #4285F4;
+
+      border:
+        5px solid #e5e7eb;
+
+      border-top-color:
+        #0B3D91;
+
       border-radius: 50%;
-      animation: spinRefresh 0.8s linear infinite;
+
+      animation:
+        spinRefresh 0.8s linear infinite;
     }
 
+
     @keyframes spinRefresh {
+
       to {
+
         transform: rotate(360deg);
       }
     }
 
+
     #refresh-modal h3 {
+
       margin: 0;
+
       font-size: 17px;
-      color: #222;
+
+      color: #222222;
+
       font-weight: 600;
     }
 
-    /* =========================
+
+    /* =========================================
        INSTALL OVERLAY
-       ========================= */
+       ========================================= */
+
     #install-overlay {
+
       display: none;
+
       position: fixed;
+
       top: 0;
       left: 0;
+
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
+
+      background-color:
+        rgba(0, 0, 0, 0.7);
+
       z-index: 9998;
+
       justify-content: center;
       align-items: center;
+
       opacity: 0;
-      transition: opacity 0.4s ease;
+
+      transition:
+        opacity 0.4s ease;
+
       pointer-events: none;
     }
 
+
     #install-overlay.show {
+
       opacity: 1;
+
       pointer-events: auto;
     }
 
-    /* =========================
+
+    /* =========================================
        INSTALL MODAL
-       ========================= */
+       ========================================= */
+
     #install-modal {
+
       background: #ffffff;
+
       padding: 30px;
+
       border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.5);
+
       text-align: center;
+
       width: 85%;
+
       max-width: 400px;
+
       transform: scale(0.8);
-      transition: transform 0.4s ease;
+
+      transition:
+        transform 0.4s ease;
     }
 
+
     #install-overlay.show #install-modal {
+
       transform: scale(1);
     }
 
+
+    /* =========================================
+       ICON APLIKASI
+       ========================================= */
+
     .app-icon-placeholder {
+
       width: 80px;
       height: 80px;
-      margin: 0 auto 20px auto;
-      background-color: #eee;
+
+      margin:
+        0 auto 20px auto;
+
+      background-color: #eeeeee;
+
       border-radius: 18px;
-      background-image: url('https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png');
+
+      background-image:
+        url('https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png');
+
       background-size: cover;
+
       background-position: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+      box-shadow:
+        0 4px 10px rgba(0,0,0,0.1);
     }
 
+
     #install-modal h2 {
-      margin: 0 0 10px 0;
+
+      margin:
+        0 0 10px 0;
+
       font-size: 22px;
+
       color: #1c1e21;
     }
 
+
     #install-modal p {
-      margin: 0 0 25px 0;
+
+      margin:
+        0 0 25px 0;
+
       font-size: 16px;
+
       color: #606770;
+
       line-height: 1.5;
     }
 
-    /* =========================
+
+    /* =========================================
        TOMBOL INSTALL
-       ========================= */
+       ========================================= */
+
     .action-buttons {
+
       display: flex;
+
       flex-direction: column;
+
       gap: 12px;
     }
 
+
     #btn-install {
-      background-color: #4285F4;
+
+      background-color:
+        #4285F4;
+
       color: white;
+
       border: none;
+
       padding: 15px;
+
       border-radius: 12px;
+
       font-size: 16px;
+
       font-weight: bold;
+
       cursor: pointer;
-      transition: background-color 0.2s;
+
+      transition:
+        background-color 0.2s;
     }
+
 
     #btn-install:active {
-      background-color: #2b6cb0;
+
+      background-color:
+        #2b6cb0;
     }
 
+
     #btn-close {
+
       background: none;
+
       border: none;
-      color: #777;
+
+      color: #777777;
+
       font-size: 14px;
+
       padding: 10px;
+
       cursor: pointer;
+
       text-decoration: none;
     }
+
+
+    /* =========================================
+       KHUSUS HP
+       ========================================= */
+
+    @media (max-width: 600px) {
+
+      #refresh-button {
+
+        right: 16px !important;
+
+        bottom: 16px !important;
+
+        width: 50px !important;
+
+        height: 50px !important;
+
+        font-size: 29px !important;
+
+      }
+
+    }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- Iframe Google Apps Script -->
+
+  <!-- =========================================
+       APLIKASI GOOGLE APPS SCRIPT
+       ========================================= -->
+
   <iframe
     id="app-frame"
     src="https://script.google.com/macros/s/AKfycbzvlDBnQ4rWwIDX9KZAvQ1zgnSW9Fvzcn8hFl1twWkxW5xuP2sk3oLrkqjO2wgDtqwL/exec"
     allow="geolocation; camera; microphone">
   </iframe>
 
-  <!-- =========================
+
+  <!-- =========================================
        TOMBOL REFRESH
-       ========================= -->
-  <button id="refresh-button" aria-label="Refresh aplikasi" title="Refresh aplikasi">
+       ========================================= -->
+
+  <button
+    id="refresh-button"
+    type="button"
+    aria-label="Refresh aplikasi"
+    title="Refresh aplikasi">
+
     ↻
+
   </button>
 
-  <!-- =========================
+
+  <!-- =========================================
        POPUP REFRESH
-       ========================= -->
+       ========================================= -->
+
   <div id="refresh-overlay">
+
     <div id="refresh-modal">
+
       <div class="refresh-loading-icon"></div>
-      <h3>Sedang memuat ulang aplikasi...</h3>
+
+      <h3>
+        Sedang memuat ulang aplikasi...
+      </h3>
+
     </div>
+
   </div>
 
-  <!-- =========================
-       POPUP INSTALASI PWA
-       ========================= -->
+
+  <!-- =========================================
+       POPUP INSTALLASI
+       ========================================= -->
+
   <div id="install-overlay">
+
     <div id="install-modal">
+
       <div class="app-icon-placeholder"></div>
 
-      <h2>Install Aplikasi</h2>
+      <h2>
+        Install Aplikasi
+      </h2>
 
       <p>
         Akses aplikasi ini lebih cepat dan mudah langsung dari layar utama HP Anda.
       </p>
 
       <div class="action-buttons">
+
         <button id="btn-install">
           Tambahkan ke Layar Utama
         </button>
@@ -312,106 +567,253 @@
         <button id="btn-close">
           Nanti Saja
         </button>
+
       </div>
+
     </div>
+
   </div>
 
+
   <script>
+
+
     /* =====================================================
-       1. SERVICE WORKER & GEOLOCATION
+       SERVICE WORKER
        ===================================================== */
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
+
+      navigator.serviceWorker
+        .register('sw.js')
+        .catch(error => {
+
+          console.warn(
+            'Service Worker gagal:',
+            error
+          );
+
+        });
+
     }
 
-    window.addEventListener('load', () => {
-      if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => console.log(
-            'Lokasi diizinkan:',
-            pos.coords
-          ),
-          (err) => console.warn(
-            'Akses lokasi ditolak:',
-            err.message
-          )
-        );
-      }
-    });
-
 
     /* =====================================================
-       2. TOMBOL REFRESH APLIKASI
+       GEOLOCATION
        ===================================================== */
 
-    const refreshButton = document.getElementById('refresh-button');
-    const refreshOverlay = document.getElementById('refresh-overlay');
-    const appFrame = document.getElementById('app-frame');
+    window.addEventListener(
+      'load',
+      () => {
 
-    refreshButton.addEventListener('click', function () {
+        if ('geolocation' in navigator) {
 
-      // Mencegah tombol ditekan berkali-kali
-      if (refreshButton.classList.contains('loading')) {
-        return;
+          navigator.geolocation.getCurrentPosition(
+
+            (pos) => {
+
+              console.log(
+                'Lokasi diizinkan:',
+                pos.coords
+              );
+
+            },
+
+            (err) => {
+
+              console.warn(
+                'Akses lokasi ditolak:',
+                err.message
+              );
+
+            }
+
+          );
+
+        }
+
       }
-
-      refreshButton.classList.add('loading');
-
-      // Tampilkan popup
-      refreshOverlay.classList.add('show');
-
-      // Refresh isi Google Apps Script
-      try {
-        appFrame.src = appFrame.src;
-      } catch (error) {
-        console.error('Gagal refresh iframe:', error);
-      }
-
-      /*
-       * Beri waktu agar aplikasi benar-benar mulai dimuat.
-       * Popup kemudian ditutup setelah iframe selesai load.
-       */
-      let refreshTimeout = setTimeout(() => {
-        refreshOverlay.classList.remove('show');
-        refreshButton.classList.remove('loading');
-      }, 5000);
-
-      appFrame.addEventListener('load', function refreshFinished() {
-
-        clearTimeout(refreshTimeout);
-
-        setTimeout(() => {
-          refreshOverlay.classList.remove('show');
-          refreshButton.classList.remove('loading');
-        }, 300);
-
-        appFrame.removeEventListener('load', refreshFinished);
-
-      }, { once: true });
-
-    });
+    );
 
 
     /* =====================================================
-       3. LOGIKA POP-UP MODAL INSTALASI PWA
+       REFRESH APLIKASI
+       ===================================================== */
+
+    const refreshButton =
+      document.getElementById(
+        'refresh-button'
+      );
+
+    const refreshOverlay =
+      document.getElementById(
+        'refresh-overlay'
+      );
+
+    const appFrame =
+      document.getElementById(
+        'app-frame'
+      );
+
+
+    refreshButton.addEventListener(
+      'click',
+      function () {
+
+
+        /* Jangan izinkan klik berulang */
+
+        if (
+          refreshButton.classList
+            .contains('loading')
+        ) {
+
+          return;
+
+        }
+
+
+        /* Tandai sedang loading */
+
+        refreshButton.classList
+          .add('loading');
+
+
+        /* Tampilkan kotak */
+
+        refreshOverlay.classList
+          .add('show');
+
+
+        /*
+         * Membuat URL baru agar browser
+         * benar-benar meminta ulang halaman.
+         */
+
+        const currentURL =
+          appFrame.src.split('#')[0];
+
+
+        const separator =
+          currentURL.includes('?')
+            ? '&'
+            : '?';
+
+
+        const newURL =
+          currentURL +
+          separator +
+          '_refresh=' +
+          Date.now();
+
+
+        /*
+         * Muat ulang iframe
+         */
+
+        appFrame.src = newURL;
+
+
+        /*
+         * Fallback jika iframe terlalu lama
+         */
+
+        const safetyTimer =
+          setTimeout(
+            function () {
+
+              hideRefresh();
+
+            },
+            8000
+          );
+
+
+        /*
+         * Jika iframe selesai dimuat
+         */
+
+        const refreshFinished =
+          function () {
+
+            clearTimeout(
+              safetyTimer
+            );
+
+
+            setTimeout(
+              function () {
+
+                hideRefresh();
+
+              },
+              400
+            );
+
+
+            appFrame.removeEventListener(
+              'load',
+              refreshFinished
+            );
+
+          };
+
+
+        appFrame.addEventListener(
+          'load',
+          refreshFinished
+        );
+
+      }
+    );
+
+
+    /* =====================================================
+       SEMBUNYIKAN POPUP REFRESH
+       ===================================================== */
+
+    function hideRefresh() {
+
+      refreshOverlay.classList
+        .remove('show');
+
+      refreshButton.classList
+        .remove('loading');
+
+    }
+
+
+    /* =====================================================
+       MODAL INSTALLASI PWA
        ===================================================== */
 
     let deferredPrompt;
 
+
     const installOverlay =
-      document.getElementById('install-overlay');
+      document.getElementById(
+        'install-overlay'
+      );
+
 
     const btnInstall =
-      document.getElementById('btn-install');
+      document.getElementById(
+        'btn-install'
+      );
+
 
     const btnClose =
-      document.getElementById('btn-close');
+      document.getElementById(
+        'btn-close'
+      );
 
 
-    // Cek apakah aplikasi dibuka dalam mode Standalone
+    /* Cek Standalone */
+
     const isStandalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia(
+        '(display-mode: standalone)'
+      ).matches ||
       window.navigator.standalone;
 
 
@@ -421,18 +823,32 @@
         'beforeinstallprompt',
         (e) => {
 
-          // Cegah prompt bawaan browser
+
+          /* Cegah prompt bawaan */
+
           e.preventDefault();
 
-          // Simpan event instalasi
+
+          /* Simpan event */
+
           deferredPrompt = e;
 
-          // Tampilkan Overlay & Modal
-          installOverlay.style.display = 'flex';
 
-          setTimeout(() => {
-            installOverlay.classList.add('show');
-          }, 10);
+          /* Tampilkan modal */
+
+          installOverlay.style.display =
+            'flex';
+
+
+          setTimeout(
+            () => {
+
+              installOverlay.classList
+                .add('show');
+
+            },
+            10
+          );
 
         }
       );
@@ -441,25 +857,32 @@
 
 
     /* =====================================================
-       4. EKSEKUSI INSTALASI
+       TOMBOL INSTALL
        ===================================================== */
 
     btnInstall.addEventListener(
       'click',
       async () => {
 
+
         hideModal();
+
 
         if (deferredPrompt) {
 
+
           deferredPrompt.prompt();
 
+
           const { outcome } =
-            await deferredPrompt.userChoice;
+            await deferredPrompt
+              .userChoice;
+
 
           console.log(
             `Respon pengguna: ${outcome}`
           );
+
 
           deferredPrompt = null;
 
@@ -470,34 +893,44 @@
 
 
     /* =====================================================
-       5. TOMBOL NANTI SAJA
+       TOMBOL NANTI SAJA
        ===================================================== */
 
     btnClose.addEventListener(
       'click',
       () => {
+
         hideModal();
+
       }
     );
 
 
     /* =====================================================
-       6. FUNGSI SEMBUNYIKAN MODAL
+       SEMBUNYIKAN MODAL INSTALL
        ===================================================== */
 
     function hideModal() {
 
-      installOverlay.classList.remove('show');
+      installOverlay.classList
+        .remove('show');
 
-      setTimeout(() => {
 
-        installOverlay.style.display = 'none';
+      setTimeout(
+        () => {
 
-      }, 400);
+          installOverlay.style.display =
+            'none';
+
+        },
+        400
+      );
 
     }
+
 
   </script>
 
 </body>
 </html>
+```

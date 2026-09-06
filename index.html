@@ -64,15 +64,12 @@
 
     /* =====================================================
        LAYAR MEMPROSES
-       MUNCUL SAAT HALAMAN GITHUB BARU DIBUKA
+       RINGAN DAN LANGSUNG MUNCUL
        ===================================================== */
 
     #processing-screen {
-
       position: fixed;
-
-      top: 0;
-      left: 0;
+      inset: 0;
 
       width: 100%;
       height: 100%;
@@ -82,53 +79,47 @@
       z-index: 2147483647;
 
       display: flex;
-
       align-items: center;
       justify-content: center;
-
       flex-direction: column;
 
+      opacity: 1;
+      visibility: visible;
+
       transition:
-        opacity 0.25s ease,
-        visibility 0.25s ease;
+        opacity 0.15s ease,
+        visibility 0.15s ease;
+
+      will-change: opacity;
     }
 
-
     #processing-screen.hide {
-
       opacity: 0;
-
       visibility: hidden;
-
       pointer-events: none;
     }
 
 
-    /* Spinner Memproses */
+    /* =====================================================
+       SPINNER MEMPROSES
+       ===================================================== */
 
     .processing-spinner {
+      width: 38px;
+      height: 38px;
 
-      width: 42px;
-
-      height: 42px;
-
-      border:
-        4px solid #E5E7EB;
-
-      border-top-color:
-        #0B3D91;
+      border: 4px solid #E5E7EB;
+      border-top-color: #0B3D91;
 
       border-radius: 50%;
 
       animation:
-        processingSpin 0.8s linear infinite;
+        processingSpin 0.7s linear infinite;
 
-      margin-bottom: 15px;
+      margin-bottom: 13px;
     }
 
-
     @keyframes processingSpin {
-
       from {
         transform: rotate(0deg);
       }
@@ -139,17 +130,18 @@
     }
 
 
-    /* Tulisan Memproses */
+    /* =====================================================
+       TEKS MEMPROSES
+       ===================================================== */
 
     #processing-screen .processing-text {
-
       color: #0B3D91;
 
-      font-size: 17px;
+      font-size: 16px;
 
       font-weight: 600;
 
-      letter-spacing: 0.2px;
+      letter-spacing: 0.1px;
     }
 
 
@@ -158,7 +150,6 @@
        ===================================================== */
 
     #app-frame {
-
       position: fixed;
 
       top: 0;
@@ -182,7 +173,6 @@
        ===================================================== */
 
     #refresh-button {
-
       position: fixed !important;
 
       right: 20px !important;
@@ -252,19 +242,13 @@
         background-color 0.15s ease;
     }
 
-
     #refresh-button:active {
-
       transform: scale(0.88) !important;
-
       background: #062B68 !important;
     }
 
-
     #refresh-button.refreshing {
-
       pointer-events: none;
-
       opacity: 0.75 !important;
     }
 
@@ -274,7 +258,6 @@
        ===================================================== */
 
     #refresh-overlay {
-
       position: fixed;
 
       top: 0;
@@ -294,9 +277,7 @@
       justify-content: center;
     }
 
-
     #refresh-overlay.show {
-
       display: flex;
     }
 
@@ -306,7 +287,6 @@
        ===================================================== */
 
     #refresh-modal {
-
       width: 85%;
 
       max-width: 350px;
@@ -326,20 +306,14 @@
         refreshPopup 0.25s ease;
     }
 
-
     @keyframes refreshPopup {
-
       from {
-
         transform: scale(0.85);
-
         opacity: 0;
       }
 
       to {
-
         transform: scale(1);
-
         opacity: 1;
       }
     }
@@ -350,9 +324,7 @@
        ===================================================== */
 
     .refresh-loading-icon {
-
       width: 48px;
-
       height: 48px;
 
       margin:
@@ -370,9 +342,7 @@
         refreshSpin 0.8s linear infinite;
     }
 
-
     @keyframes refreshSpin {
-
       from {
         transform: rotate(0deg);
       }
@@ -382,9 +352,7 @@
       }
     }
 
-
     #refresh-modal h3 {
-
       margin: 0;
 
       font-size: 17px;
@@ -400,7 +368,6 @@
        ===================================================== */
 
     #install-overlay {
-
       display: none;
 
       position: fixed;
@@ -417,7 +384,6 @@
       z-index: 9998;
 
       justify-content: center;
-
       align-items: center;
 
       opacity: 0;
@@ -428,11 +394,8 @@
       pointer-events: none;
     }
 
-
     #install-overlay.show {
-
       opacity: 1;
-
       pointer-events: auto;
     }
 
@@ -442,7 +405,6 @@
        ===================================================== */
 
     #install-modal {
-
       background: #FFFFFF;
 
       padding: 30px;
@@ -464,9 +426,7 @@
         transform 0.4s ease;
     }
 
-
     #install-overlay.show #install-modal {
-
       transform: scale(1);
     }
 
@@ -476,9 +436,7 @@
        ===================================================== */
 
     .app-icon-placeholder {
-
       width: 80px;
-
       height: 80px;
 
       margin:
@@ -500,9 +458,7 @@
         0 4px 10px rgba(0,0,0,0.1);
     }
 
-
     #install-modal h2 {
-
       margin:
         0 0 10px 0;
 
@@ -511,9 +467,7 @@
       color: #1c1e21;
     }
 
-
     #install-modal p {
-
       margin:
         0 0 25px 0;
 
@@ -530,7 +484,6 @@
        ===================================================== */
 
     .action-buttons {
-
       display: flex;
 
       flex-direction: column;
@@ -538,9 +491,7 @@
       gap: 12px;
     }
 
-
     #btn-install {
-
       background-color:
         #4285F4;
 
@@ -559,16 +510,12 @@
       cursor: pointer;
     }
 
-
     #btn-install:active {
-
       background-color:
         #2b6cb0;
     }
 
-
     #btn-close {
-
       background: none;
 
       border: none;
@@ -592,7 +539,6 @@
     @media (max-width: 600px) {
 
       #refresh-button {
-
         right: 15px !important;
 
         bottom: 15px !important;
@@ -612,6 +558,14 @@
         font-size: 30px !important;
       }
 
+      .processing-spinner {
+        width: 36px;
+        height: 36px;
+      }
+
+      #processing-screen .processing-text {
+        font-size: 15px;
+      }
     }
 
   </style>
@@ -626,11 +580,13 @@
 
   <div id="processing-screen">
 
+```
 <div class="processing-spinner"></div>
 
 <div class="processing-text">
-  Menampilkan aplikasi...
+  Memproses...
 </div>
+```
 
   </div>
 
@@ -654,7 +610,9 @@
  aria-label="Refresh aplikasi"
  title="Refresh aplikasi">
 
+```
 ↻
+```
 
   </button>
 
@@ -664,6 +622,7 @@
 
   <div id="refresh-overlay">
 
+```
 <div id="refresh-modal">
 
   <div class="refresh-loading-icon"></div>
@@ -673,6 +632,7 @@
   </h3>
 
 </div>
+```
 
   </div>
 
@@ -682,6 +642,7 @@
 
   <div id="install-overlay">
 
+```
 <div id="install-modal">
 
   <div class="app-icon-placeholder"></div>
@@ -707,6 +668,7 @@
   </div>
 
 </div>
+```
 
   </div>
 
@@ -714,7 +676,7 @@
 
 
     /* =====================================================
-       MEMPROSES SAAT IFRAME SELESAI DIMUAT
+       LAYAR MEMPROSES
        ===================================================== */
 
     const processingScreen =
@@ -729,9 +691,10 @@
 
 
     /*
-     * Sembunyikan tulisan "Memproses..."
-     * setelah aplikasi Google Apps Script
-     * selesai dimuat.
+     * Begitu iframe selesai dimuat,
+     * layar Memproses langsung disembunyikan.
+     *
+     * Tidak ada delay tambahan.
      */
 
     appFrame.addEventListener(
@@ -741,7 +704,8 @@
         processingScreen.classList
           .add('hide');
 
-      }
+      },
+      { once: false }
     );
 
 

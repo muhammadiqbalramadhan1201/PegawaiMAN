@@ -1,5 +1,5 @@
-```html
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -8,6 +8,7 @@
   <title>Aplikasi Pegawai MAN</title>
 
   <!-- Preview WhatsApp & Open Graph -->
+
   <meta property="og:title" content="Aplikasi Pegawai MAN">
   <meta property="og:description" content="Sistem informasi dan layanan kepegawaian.">
   <meta property="og:image" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
@@ -17,19 +18,20 @@
   <meta property="og:url" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/">
 
   <!-- Twitter -->
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Aplikasi Pegawai MAN">
   <meta name="twitter:description" content="Sistem informasi dan layanan kepegawaian.">
   <meta name="twitter:image" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
 
   <!-- PWA -->
+
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
 
   <meta name="theme-color" content="#0B3D91">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 
   <style>
 
@@ -42,7 +44,6 @@
       padding: 0;
       box-sizing: border-box;
     }
-
 
     html,
     body {
@@ -58,6 +59,97 @@
         Helvetica,
         Arial,
         sans-serif;
+    }
+
+
+    /* =====================================================
+       LAYAR MEMPROSES
+       MUNCUL SAAT HALAMAN GITHUB BARU DIBUKA
+       ===================================================== */
+
+    #processing-screen {
+
+      position: fixed;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: #ffffff;
+
+      z-index: 2147483647;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+    }
+
+
+    #processing-screen.hide {
+
+      opacity: 0;
+
+      visibility: hidden;
+
+      pointer-events: none;
+    }
+
+
+    /* Spinner Memproses */
+
+    .processing-spinner {
+
+      width: 42px;
+
+      height: 42px;
+
+      border:
+        4px solid #E5E7EB;
+
+      border-top-color:
+        #0B3D91;
+
+      border-radius: 50%;
+
+      animation:
+        processingSpin 0.8s linear infinite;
+
+      margin-bottom: 15px;
+    }
+
+
+    @keyframes processingSpin {
+
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+
+    /* Tulisan Memproses */
+
+    #processing-screen .processing-text {
+
+      color: #0B3D91;
+
+      font-size: 17px;
+
+      font-weight: 600;
+
+      letter-spacing: 0.2px;
     }
 
 
@@ -91,7 +183,6 @@
 
     #refresh-button {
 
-      /* WAJIB FLOATING DI ATAS IFRAME */
       position: fixed !important;
 
       right: 20px !important;
@@ -134,7 +225,6 @@
 
       cursor: pointer !important;
 
-      /* PALING ATAS */
       z-index: 2147483647 !important;
 
       display: flex !important;
@@ -163,8 +253,6 @@
     }
 
 
-    /* Saat tombol ditekan */
-
     #refresh-button:active {
 
       transform: scale(0.88) !important;
@@ -172,8 +260,6 @@
       background: #062B68 !important;
     }
 
-
-    /* Saat sedang refresh */
 
     #refresh-button.refreshing {
 
@@ -260,7 +346,7 @@
 
 
     /* =====================================================
-       LOADING SPINNER
+       LOADING SPINNER REFRESH
        ===================================================== */
 
     .refresh-loading-icon {
@@ -524,7 +610,6 @@
         max-height: 52px !important;
 
         font-size: 30px !important;
-
       }
 
     }
@@ -533,9 +618,23 @@
 
 </head>
 
-
 <body>
 
+  <!-- =====================================================
+       LAYAR MEMPROSES
+       ===================================================== -->
+
+  <div id="processing-screen">
+
+```
+<div class="processing-spinner"></div>
+
+<div class="processing-text">
+  Memproses...
+</div>
+```
+
+  </div>
 
   <!-- =====================================================
        APLIKASI GOOGLE APPS SCRIPT
@@ -547,21 +646,21 @@
     allow="geolocation; camera; microphone">
   </iframe>
 
-
   <!-- =====================================================
        TOMBOL REFRESH
        ===================================================== -->
 
-  <button
-    id="refresh-button"
-    type="button"
-    aria-label="Refresh aplikasi"
-    title="Refresh aplikasi">
+<button
+ id="refresh-button"
+ type="button"
+ aria-label="Refresh aplikasi"
+ title="Refresh aplikasi">
 
-    ↻
+```
+↻
+```
 
   </button>
-
 
   <!-- =====================================================
        POPUP REFRESH
@@ -569,18 +668,19 @@
 
   <div id="refresh-overlay">
 
-    <div id="refresh-modal">
+```
+<div id="refresh-modal">
 
-      <div class="refresh-loading-icon"></div>
+  <div class="refresh-loading-icon"></div>
 
-      <h3>
-        Sedang memuat ulang aplikasi...
-      </h3>
+  <h3>
+    Sedang memuat ulang aplikasi...
+  </h3>
 
-    </div>
+</div>
+```
 
   </div>
-
 
   <!-- =====================================================
        POPUP INSTALLASI
@@ -588,36 +688,69 @@
 
   <div id="install-overlay">
 
-    <div id="install-modal">
+```
+<div id="install-modal">
 
-      <div class="app-icon-placeholder"></div>
+  <div class="app-icon-placeholder"></div>
 
-      <h2>
-        Install Aplikasi
-      </h2>
+  <h2>
+    Install Aplikasi
+  </h2>
 
-      <p>
-        Akses aplikasi ini lebih cepat dan mudah langsung dari layar utama HP Anda.
-      </p>
+  <p>
+    Akses aplikasi ini lebih cepat dan mudah langsung dari layar utama HP Anda.
+  </p>
 
-      <div class="action-buttons">
+  <div class="action-buttons">
 
-        <button id="btn-install">
-          Tambahkan ke Layar Utama
-        </button>
+    <button id="btn-install">
+      Tambahkan ke Layar Utama
+    </button>
 
-        <button id="btn-close">
-          Nanti Saja
-        </button>
-
-      </div>
-
-    </div>
+    <button id="btn-close">
+      Nanti Saja
+    </button>
 
   </div>
 
+</div>
+```
+
+  </div>
 
   <script>
+
+
+    /* =====================================================
+       MEMPROSES SAAT IFRAME SELESAI DIMUAT
+       ===================================================== */
+
+    const processingScreen =
+      document.getElementById(
+        'processing-screen'
+      );
+
+    const appFrame =
+      document.getElementById(
+        'app-frame'
+      );
+
+
+    /*
+     * Sembunyikan tulisan "Memproses..."
+     * setelah aplikasi Google Apps Script
+     * selesai dimuat.
+     */
+
+    appFrame.addEventListener(
+      'load',
+      function() {
+
+        processingScreen.classList
+          .add('hide');
+
+      }
+    );
 
 
     /* =====================================================
@@ -690,11 +823,6 @@
     const refreshOverlay =
       document.getElementById(
         'refresh-overlay'
-      );
-
-    const appFrame =
-      document.getElementById(
-        'app-frame'
       );
 
 
@@ -904,4 +1032,3 @@
 
 </body>
 </html>
-```

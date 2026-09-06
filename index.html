@@ -55,41 +55,45 @@
       position: relative;
     }
 
-    /* =========================
-       TOMBOL REFRESH
-       ========================= */
-    #refresh-button {
-      position: fixed;
-      top: 12px;
-      right: 12px;
-      width: 44px;
-      height: 44px;
-      border: none;
-      border-radius: 12px;
-      background: #4285F4;
-      color: #ffffff;
-      font-size: 28px;
-      font-weight: bold;
-      line-height: 44px;
-      text-align: center;
-      cursor: pointer;
-      z-index: 9995;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      -webkit-tap-highlight-color: transparent;
-    }
+    ```css
+/* =========================
+   TOMBOL REFRESH - KANAN BAWAH
+   ========================= */
+#refresh-button {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  top: auto;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: #0b3d91;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 9995;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
 
-    #refresh-button:active {
-      transform: scale(0.92);
-      background: #2b6cb0;
-    }
+#refresh-button:active {
+  transform: scale(0.90);
+  background: #082f70;
+}
 
-    #refresh-button.loading {
-      pointer-events: none;
-      opacity: 0.8;
-    }
+#refresh-button.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+```
 
     /* =========================
        OVERLAY REFRESH

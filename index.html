@@ -1,37 +1,100 @@
 <!DOCTYPE html>
 
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+
+>
 
   <title>Aplikasi Pegawai MAN</title>
 
-  <!-- Preview WhatsApp & Open Graph -->
+  <!-- =====================================================
+       PREVIEW WHATSAPP & OPEN GRAPH
+       ===================================================== -->
 
   <meta property="og:title" content="Aplikasi Pegawai MAN">
-  <meta property="og:description" content="Sistem informasi dan layanan kepegawaian.">
-  <meta property="og:image" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
-  <meta property="og:image:secure_url" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/">
 
-  <!-- Twitter -->
+<meta
+property="og:description"
+content="Sistem informasi dan layanan kepegawaian."
+
+>
+
+<meta
+property="og:image"
+content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png"
+
+>
+
+<meta
+property="og:image:secure_url"
+content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png"
+
+>
+
+  <meta property="og:image:type" content="image/png">
+
+  <meta property="og:type" content="website">
+
+<meta
+property="og:url"
+content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/"
+
+>
+
+  <!-- =====================================================
+       TWITTER
+       ===================================================== -->
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Aplikasi Pegawai MAN">
-  <meta name="twitter:description" content="Sistem informasi dan layanan kepegawaian.">
-  <meta name="twitter:image" content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
 
-  <!-- PWA -->
+<meta
+name="twitter:title"
+content="Aplikasi Pegawai MAN"
+
+>
+
+<meta
+name="twitter:description"
+content="Sistem informasi dan layanan kepegawaian."
+
+>
+
+<meta
+name="twitter:image"
+content="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png"
+
+>
+
+  <!-- =====================================================
+       PWA
+       ===================================================== -->
 
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png">
+
+  <link
+    rel="apple-touch-icon"
+    href="https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png"
+  >
 
   <meta name="theme-color" content="#0B3D91">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta
+name="apple-mobile-web-app-capable"
+content="yes"
+
+>
+
+<meta
+name="apple-mobile-web-app-status-bar-style"
+content="black-translucent"
+
+>
 
   <style>
 
@@ -45,12 +108,17 @@
       box-sizing: border-box;
     }
 
+
     html,
     body {
+
       width: 100%;
       height: 100%;
+
       overflow: hidden;
+
       background: #ffffff;
+
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -64,11 +132,12 @@
 
     /* =====================================================
        LAYAR MEMPROSES
-       RINGAN DAN LANGSUNG MUNCUL
        ===================================================== */
 
     #processing-screen {
+
       position: fixed;
+
       inset: 0;
 
       width: 100%;
@@ -79,11 +148,15 @@
       z-index: 2147483647;
 
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       flex-direction: column;
 
       opacity: 1;
+
       visibility: visible;
 
       transition:
@@ -93,9 +166,13 @@
       will-change: opacity;
     }
 
+
     #processing-screen.hide {
+
       opacity: 0;
+
       visibility: hidden;
+
       pointer-events: none;
     }
 
@@ -105,10 +182,12 @@
        ===================================================== */
 
     .processing-spinner {
+
       width: 38px;
       height: 38px;
 
       border: 4px solid #E5E7EB;
+
       border-top-color: #0B3D91;
 
       border-radius: 50%;
@@ -119,7 +198,9 @@
       margin-bottom: 13px;
     }
 
+
     @keyframes processingSpin {
+
       from {
         transform: rotate(0deg);
       }
@@ -135,6 +216,7 @@
        ===================================================== */
 
     #processing-screen .processing-text {
+
       color: #0B3D91;
 
       font-size: 16px;
@@ -150,6 +232,7 @@
        ===================================================== */
 
     #app-frame {
+
       position: fixed;
 
       top: 0;
@@ -169,205 +252,11 @@
 
 
     /* =====================================================
-       TOMBOL REFRESH FLOATING
-       ===================================================== */
-
-    #refresh-button {
-      position: fixed !important;
-
-      right: 20px !important;
-      bottom: 20px !important;
-
-      top: auto !important;
-      left: auto !important;
-
-      width: 54px !important;
-      height: 54px !important;
-
-      min-width: 54px !important;
-      min-height: 54px !important;
-
-      max-width: 54px !important;
-      max-height: 54px !important;
-
-      border: 0 !important;
-      outline: none !important;
-
-      border-radius: 50% !important;
-
-      background: #0B3D91 !important;
-
-      color: #FFFFFF !important;
-
-      font-family: Arial, sans-serif !important;
-
-      font-size: 32px !important;
-
-      font-weight: normal !important;
-
-      line-height: 54px !important;
-
-      text-align: center !important;
-
-      padding: 0 !important;
-
-      margin: 0 !important;
-
-      cursor: pointer !important;
-
-      z-index: 2147483647 !important;
-
-      display: flex !important;
-
-      align-items: center !important;
-
-      justify-content: center !important;
-
-      visibility: visible !important;
-
-      opacity: 1 !important;
-
-      box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.35) !important;
-
-      -webkit-appearance: none !important;
-      appearance: none !important;
-
-      -webkit-tap-highlight-color: transparent;
-
-      user-select: none;
-
-      transition:
-        transform 0.15s ease,
-        background-color 0.15s ease;
-    }
-
-    #refresh-button:active {
-      transform: scale(0.88) !important;
-      background: #062B68 !important;
-    }
-
-    #refresh-button.refreshing {
-      pointer-events: none;
-      opacity: 0.75 !important;
-    }
-
-
-    /* =====================================================
-       POPUP REFRESH
-       ===================================================== */
-
-    #refresh-overlay {
-      position: fixed;
-
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-
-      background:
-        rgba(0, 0, 0, 0.45);
-
-      z-index: 2147483646;
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-    }
-
-    #refresh-overlay.show {
-      display: flex;
-    }
-
-
-    /* =====================================================
-       KOTAK REFRESH
-       ===================================================== */
-
-    #refresh-modal {
-      width: 85%;
-
-      max-width: 350px;
-
-      background: #FFFFFF;
-
-      border-radius: 18px;
-
-      padding: 28px 20px;
-
-      text-align: center;
-
-      box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.30);
-
-      animation:
-        refreshPopup 0.25s ease;
-    }
-
-    @keyframes refreshPopup {
-      from {
-        transform: scale(0.85);
-        opacity: 0;
-      }
-
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-
-    /* =====================================================
-       LOADING SPINNER REFRESH
-       ===================================================== */
-
-    .refresh-loading-icon {
-      width: 48px;
-      height: 48px;
-
-      margin:
-        0 auto 16px auto;
-
-      border:
-        5px solid #E5E7EB;
-
-      border-top-color:
-        #0B3D91;
-
-      border-radius: 50%;
-
-      animation:
-        refreshSpin 0.8s linear infinite;
-    }
-
-    @keyframes refreshSpin {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    #refresh-modal h3 {
-      margin: 0;
-
-      font-size: 17px;
-
-      font-weight: 600;
-
-      color: #222222;
-    }
-
-
-    /* =====================================================
        INSTALL OVERLAY
        ===================================================== */
 
     #install-overlay {
+
       display: none;
 
       position: fixed;
@@ -384,6 +273,7 @@
       z-index: 9998;
 
       justify-content: center;
+
       align-items: center;
 
       opacity: 0;
@@ -394,8 +284,11 @@
       pointer-events: none;
     }
 
+
     #install-overlay.show {
+
       opacity: 1;
+
       pointer-events: auto;
     }
 
@@ -405,6 +298,7 @@
        ===================================================== */
 
     #install-modal {
+
       background: #FFFFFF;
 
       padding: 30px;
@@ -426,7 +320,9 @@
         transform 0.4s ease;
     }
 
+
     #install-overlay.show #install-modal {
+
       transform: scale(1);
     }
 
@@ -436,6 +332,7 @@
        ===================================================== */
 
     .app-icon-placeholder {
+
       width: 80px;
       height: 80px;
 
@@ -448,7 +345,9 @@
       border-radius: 18px;
 
       background-image:
-        url('https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png');
+        url(
+          'https://muhammadiqbalramadhan1201.github.io/PegawaiMAN/preview.png'
+        );
 
       background-size: cover;
 
@@ -458,7 +357,9 @@
         0 4px 10px rgba(0,0,0,0.1);
     }
 
+
     #install-modal h2 {
+
       margin:
         0 0 10px 0;
 
@@ -467,7 +368,9 @@
       color: #1c1e21;
     }
 
+
     #install-modal p {
+
       margin:
         0 0 25px 0;
 
@@ -484,6 +387,7 @@
        ===================================================== */
 
     .action-buttons {
+
       display: flex;
 
       flex-direction: column;
@@ -491,7 +395,9 @@
       gap: 12px;
     }
 
+
     #btn-install {
+
       background-color:
         #4285F4;
 
@@ -510,12 +416,16 @@
       cursor: pointer;
     }
 
+
     #btn-install:active {
+
       background-color:
         #2b6cb0;
     }
 
+
     #btn-close {
+
       background: none;
 
       border: none;
@@ -538,34 +448,19 @@
 
     @media (max-width: 600px) {
 
-      #refresh-button {
-        right: 15px !important;
-
-        bottom: 15px !important;
-
-        width: 52px !important;
-
-        height: 52px !important;
-
-        min-width: 52px !important;
-
-        min-height: 52px !important;
-
-        max-width: 52px !important;
-
-        max-height: 52px !important;
-
-        font-size: 30px !important;
-      }
-
       .processing-spinner {
+
         width: 36px;
+
         height: 36px;
       }
 
+
       #processing-screen .processing-text {
+
         font-size: 15px;
       }
+
     }
 
   </style>
@@ -580,11 +475,13 @@
 
   <div id="processing-screen">
 
+```
 <div class="processing-spinner"></div>
 
 <div class="processing-text">
   Membuka Aplikasi...
 </div>
+```
 
   </div>
 
@@ -595,47 +492,17 @@
   <iframe
     id="app-frame"
     src="https://script.google.com/macros/s/AKfycbzvlDBnQ4rWwIDX9KZAvQ1zgnSW9Fvzcn8hFl1twWkxW5xuP2sk3oLrkqjO2wgDtqwL/exec"
-    allow="geolocation; camera; microphone">
+    allow="geolocation; camera; microphone"
+  >
   </iframe>
 
   <!-- =====================================================
-       TOMBOL REFRESH
-       ===================================================== -->
-
-<button
- id="refresh-button"
- type="button"
- aria-label="Refresh aplikasi"
- title="Refresh aplikasi">
-
-↻
-
-  </button>
-
-  <!-- =====================================================
-       POPUP REFRESH
-       ===================================================== -->
-
-  <div id="refresh-overlay">
-
-<div id="refresh-modal">
-
-  <div class="refresh-loading-icon"></div>
-
-  <h3>
-    Sedang memuat ulang aplikasi...
-  </h3>
-
-</div>
-
-  </div>
-
-  <!-- =====================================================
-       POPUP INSTALLASI
+       POPUP INSTALLASI PWA
        ===================================================== -->
 
   <div id="install-overlay">
 
+```
 <div id="install-modal">
 
   <div class="app-icon-placeholder"></div>
@@ -645,22 +512,24 @@
   </h2>
 
   <p>
-    Akses aplikasi ini lebih cepat dan mudah langsung dari layar utama HP Anda.
+    Akses aplikasi ini lebih cepat dan mudah langsung
+    dari layar utama HP Anda.
   </p>
 
   <div class="action-buttons">
 
-    <button id="btn-install">
+    <button id="btn-install" type="button">
       Tambahkan ke Layar Utama
     </button>
 
-    <button id="btn-close">
+    <button id="btn-close" type="button">
       Nanti Saja
     </button>
 
   </div>
 
 </div>
+```
 
   </div>
 
@@ -676,6 +545,7 @@
         'processing-screen'
       );
 
+
     const appFrame =
       document.getElementById(
         'app-frame'
@@ -684,20 +554,21 @@
 
     /*
      * Begitu iframe selesai dimuat,
-     * layar Memproses langsung disembunyikan.
-     *
-     * Tidak ada delay tambahan.
+     * layar "Membuka Aplikasi..." disembunyikan.
      */
 
     appFrame.addEventListener(
       'load',
       function() {
 
-        processingScreen.classList
-          .add('hide');
+        processingScreen.classList.add(
+          'hide'
+        );
 
       },
-      { once: false }
+      {
+        once: false
+      }
     );
 
 
@@ -729,7 +600,10 @@
       'load',
       function() {
 
-        if ('geolocation' in navigator) {
+        if (
+          'geolocation'
+          in navigator
+        ) {
 
           navigator.geolocation.getCurrentPosition(
 
@@ -760,89 +634,10 @@
 
 
     /* =====================================================
-       REFRESH APLIKASI
-       ===================================================== */
-
-    const refreshButton =
-      document.getElementById(
-        'refresh-button'
-      );
-
-    const refreshOverlay =
-      document.getElementById(
-        'refresh-overlay'
-      );
-
-
-    refreshButton.onclick =
-      function() {
-
-
-        /* Cegah klik berkali-kali */
-
-        if (
-          refreshButton.classList
-            .contains('refreshing')
-        ) {
-
-          return;
-
-        }
-
-
-        /* Tandai sedang refresh */
-
-        refreshButton.classList
-          .add('refreshing');
-
-
-        /* Tampilkan popup */
-
-        refreshOverlay.classList
-          .add('show');
-
-
-        /*
-         * Paksa iframe memuat ulang.
-         * Parameter timestamp mencegah cache.
-         */
-
-        const baseURL =
-          'https://script.google.com/macros/s/AKfycbzvlDBnQ4rWwIDX9KZAvQ1zgnSW9Fvzcn8hFl1twWkxW5xuP2sk3oLrkqjO2wgDtqwL/exec';
-
-
-        appFrame.src =
-          baseURL +
-          '?refresh=' +
-          Date.now();
-
-
-        /*
-         * Popup minimal tampil
-         * selama 1,5 detik.
-         */
-
-        setTimeout(
-          function() {
-
-            refreshOverlay.classList
-              .remove('show');
-
-            refreshButton.classList
-              .remove('refreshing');
-
-          },
-          1500
-        );
-
-      };
-
-
-    /* =====================================================
        PWA INSTALLATION
        ===================================================== */
 
-    let deferredPrompt;
+    let deferredPrompt = null;
 
 
     const installOverlay =
@@ -863,12 +658,24 @@
       );
 
 
+    /* =====================================================
+       CEK MODE STANDALONE
+       ===================================================== */
+
     const isStandalone =
+
       window.matchMedia(
         '(display-mode: standalone)'
-      ).matches ||
+      ).matches
+
+      ||
+
       window.navigator.standalone;
 
+
+    /* =====================================================
+       EVENT INSTALL PWA
+       ===================================================== */
 
     if (!isStandalone) {
 
@@ -876,18 +683,23 @@
         'beforeinstallprompt',
         function(e) {
 
-
-          /* Cegah prompt bawaan browser */
+          /*
+           * Cegah prompt bawaan browser
+           */
 
           e.preventDefault();
 
 
-          /* Simpan event */
+          /*
+           * Simpan event untuk tombol install
+           */
 
           deferredPrompt = e;
 
 
-          /* Tampilkan popup */
+          /*
+           * Tampilkan popup install
+           */
 
           installOverlay.style.display =
             'flex';
@@ -896,8 +708,9 @@
           setTimeout(
             function() {
 
-              installOverlay.classList
-                .add('show');
+              installOverlay.classList.add(
+                'show'
+              );
 
             },
             10
@@ -916,9 +729,16 @@
     btnInstall.onclick =
       async function() {
 
+        /*
+         * Tutup popup terlebih dahulu
+         */
 
         hideModal();
 
+
+        /*
+         * Jika browser mendukung install prompt
+         */
 
         if (deferredPrompt) {
 
@@ -934,6 +754,10 @@
             result.outcome
           );
 
+
+          /*
+           * Event hanya boleh digunakan sekali
+           */
 
           deferredPrompt = null;
 
@@ -960,8 +784,9 @@
 
     function hideModal() {
 
-      installOverlay.classList
-        .remove('show');
+      installOverlay.classList.remove(
+        'show'
+      );
 
 
       setTimeout(
@@ -976,7 +801,13 @@
 
     }
 
+
+    /* =====================================================
+       SELESAI
+       ===================================================== */
+
   </script>
 
 </body>
+
 </html>
